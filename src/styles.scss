@@ -1,1 +1,97 @@
-/* You can add global styles to this file, and also import other style files */
+@import "assets/variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/grid"; // add the grid
+@import "~bootstrap/scss/utilities"; // add css utilities
+@import "assets/reset";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden}
+
+/* here is dropdown style. It here since we need to override to angular-material styles*/
+
+.choice-list{
+  border: $dark-green solid 1px;
+  border-radius: 4px;
+  height: 30px;
+  background-color: white;
+  padding-left: 10px;
+  .mat-select-trigger{
+    height: 100%;
+    .mat-select-value{
+      height: 100%;
+      color: $dark-green;
+      .mat-select-value-text{
+        display: flex;
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        font-size: 17px;
+      }
+    }
+    .mat-select-arrow-wrapper{
+      background-color: $dark-green;
+      padding-left: 5px;
+      padding-right: 5px;
+      .mat-select-arrow{
+        color: white;
+        border-left-width: 6px;
+        border-right-width: 6px;
+        border-top-width: 6px;
+      }
+    }
+  }
+  mat-option{
+    background-color: $dark-green;
+    color: white;
+  }
+}
+
+.choice-options{
+  .mat-option{
+    color: $dark-green;
+    font-size: 17px;
+    &.mat-selected:not(.mat-option-multiple){
+      background-color: $dark-green;
+    }
+    &.mat-active{
+      color: white;
+    }
+    &:hover{
+      background-color: $light-green;
+    }
+  }
+}
+
+/* global style for scrollbar */
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: white;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+/* global styles for editor */
+angular-editor{
+  angular-editor-toolbar{
+    .angular-editor-toolbar{
+      background-color: $super-light-gray !important;
+      border: none !important;
+    }
+  }
+  .angular-editor-textarea{
+    margin-top: 0px !important;
+    border-radius: 3px;
+  }
+}

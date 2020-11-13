@@ -1,0 +1,16 @@
+@import '~src/assets/variables';
+
+:host {
+  display: block;
+  height: 100%;
+  .container-fluid{
+    .table-container{
+      display: block;
+      max-width: 800px;
+      app-student-table-view{
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}

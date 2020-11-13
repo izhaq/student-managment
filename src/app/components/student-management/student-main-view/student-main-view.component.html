@@ -1,0 +1,40 @@
+<div class="row main-view">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12 switch-view-btn-section">
+        <div class="switch-view-btn">
+          <fa-icon class="switch-view-logo" icon="table" size="lg"></fa-icon>
+        </div>
+        <div class="switch-view-btn">
+          <fa-icon class="switch-view-logo" icon="th-list" size="lg"></fa-icon>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 details-view">
+        <div class="row">
+          <div class="col-lg-6 col-md-4 col-12">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 col-sm-6 col-12">
+                <div class="dropdown-container">
+                  <app-dropdown [placeholder]="'Choose Year'" [options]="years" (itemSelectedEvent)="onYearSelected($event)"></app-dropdown>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 col-sm-6 col-12">
+                <div class="dropdown-container">
+                  <app-dropdown  [placeholder]="'Choose Class'" [options]="classTypes" (itemSelectedEvent)="onClassSelected($event)"></app-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-8 col-12 list-container">
+            <div class="student-list">
+              <app-student-table-view [student]="tableHeader" class="table-header"></app-student-table-view>
+              <app-student-table-view *ngFor="let student of students" [student]="student"></app-student-table-view>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

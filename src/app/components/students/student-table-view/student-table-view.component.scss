@@ -1,0 +1,25 @@
+@import '~src/assets/variables';
+
+:host {
+  width: 100%;
+  &:last-of-type{
+    border: none;
+  }
+  .student-table-row-view-container{
+    display: flex;
+    border-bottom: $dark-gray solid 2px;
+    .cell {
+      flex: 1;
+      padding: 10px;
+      border-right: $dark-gray solid 2px;
+      .score-input{
+        border: none;
+        background-color: inherit;
+        padding-left: 5px;
+      }
+    }
+    &.low-grade{
+      background-color: $light-red;
+    }
+  }
+}

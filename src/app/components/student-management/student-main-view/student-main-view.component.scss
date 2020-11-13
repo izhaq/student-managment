@@ -1,0 +1,58 @@
+@import '~src/assets/variables';
+
+:host {
+  display: block;
+  .main-view{
+    background-color: $super-light-gray;
+    .switch-view-btn-section{
+      padding: 5px;
+      display: flex;
+      height: 50px;
+      justify-content: flex-end;
+      .switch-view-btn{
+        padding: 5px;
+        margin-left: 5px;
+        cursor: pointer;
+        .switch-view-logo{
+          color: $dark-green
+        }
+      }
+    }
+    .details-view{
+      padding: 5px 10px 10px 10px;
+      .list-container{
+        padding-top: 25px;
+        .student-list{
+          max-height: 315px;
+          overflow-y: auto;
+          overflow-x: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          padding-right: 6px;
+          background-color: white;
+          .table-header{
+            background-color: $light-green;
+            position: sticky;
+            top: 0;
+          }
+          .selected-row{
+            background-color: $light-yellow;
+          }
+          app-student-details-view{
+          }
+        }
+      }
+      .row {
+        .col-12{
+          .dropdown-container{
+            padding-top: 25px;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+      .dropdown-container{}
+    }
+  }
+}

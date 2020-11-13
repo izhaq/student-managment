@@ -1,0 +1,52 @@
+@import "~src/assets/variables";
+
+:host{
+  display: block;
+  width: 100%;
+  padding: 5px;
+  border: #96d069 solid 4px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: white;
+  .details-container{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    &:last-of-type{
+      display: flex;
+      align-items: flex-end;
+      .detail-section{
+        align-items: flex-end;
+      }
+    }
+    .detail-section{
+      display: flex;
+      color: $super-dark-gray;
+      padding-bottom: 5px;
+      .details-label{
+        padding-right: 5px;
+      }
+      .details-value{
+        font-weight: bold;
+      }
+      .score-input{
+        width: 60px;
+        border-radius: 5px;
+        border: $dark-gray solid 1px;
+        background-color: $light-yellow;
+        padding-left: 5px;
+      }
+    }
+  }
+}
+
+.student-logo-container{
+  padding: 8px;
+  border: $dark-green solid 4px;
+  border-radius: 10px;
+  display: inline-flex;
+  .student-logo{
+    color: $dark-green;
+  }
+}
+
+
