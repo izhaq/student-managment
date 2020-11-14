@@ -8,12 +8,16 @@ import {Student, Students} from '../models/Student';
 
 interface Store{
   studentsOrig: Students;
+  selectedYear: string;
+  selectedClassType: string;
   students: BehaviorSubject<Students>;
   classRooms: BehaviorSubject<ClassRooms>;
   years: BehaviorSubject<ChoiceList>;
   classTypes: BehaviorSubject<ChoiceList>;
   viewMode: BehaviorSubject<string>;
 }
+
+type Filter = (data: any) => boolean;
 
 
 
@@ -31,6 +35,8 @@ export class StudentsStoreService {
   init(): void {
     this.store = {
       studentsOrig: [],
+      selectedYear: resetSelectionCode,
+      selectedClassType: resetSelectionCode,
       students: new BehaviorSubject<Students>([]),
       years: new BehaviorSubject<ChoiceList>([]),
       classTypes: new BehaviorSubject<ChoiceList>([]),
@@ -62,40 +68,75 @@ export class StudentsStoreService {
     return choiceList;
   }
 
-  createStudentsArray(classRooms: ClassRooms): Students {
-    return classRooms.reduce((students, classRoom) => [...classRoom.students, ...students], []);
-  }
-
-  createClassTypesArray(types: ClassTypes): ChoiceList {
-    return types.map(type => ({ code: type, value: type }));
-  }
-
-  fetchStudents(): Observable<ClassRoomResponse> {
-    return of(getStudents()).pipe(map(response => response as ClassRoomResponse));
-  }
-
-  onNewYear(selectedYear: string): void {
+  private filterYears(year: string): void{
     const classTypes = this.store.classRooms.getValue().reduce((courseMap: {}, classRoom: ClassRoom ) => {
       const yearExist = classRoom.students.some( (student: Student) =>
-        (selectedYear === resetSelectionCode || student.year === selectedYear) );
+        (year === resetSelectionCode || student.year === year) );
       return yearExist ? {[classRoom.classType]: classRoom.classType, ...courseMap} : courseMap;
     }, {});
     const courses: ChoiceList = this.buildChoiceList(classTypes);
     this.store.classTypes.next(courses);
-    this.onFilterStudentByYear(selectedYear);
   }
 
-  onNewClassType(classType: string): void {
+  private filterClassTypes(classType: string): void{
     const classRooms = this.store.classRooms.getValue().filter( classRoom =>
       (classType === resetSelectionCode || classRoom.classType === classType));
     const years = this.createYearsArray(classRooms);
     this.store.years.next(years);
   }
 
-  onFilterStudentByYear(selectedYear: string): void{
-    const filteredStudent = this.store.studentsOrig.filter((student) =>
-      (selectedYear === resetSelectionCode || selectedYear === student.year));
+  private getStudentByClassTypeFilter = (classType: string): Filter => {
+    return (classRoom: ClassRoom) => (classType === resetSelectionCode || classType === classRoom.classType);
+  }
+
+  private getStudentByYearFilter = (year: string): Filter => {
+    return (student: Student) => (year === resetSelectionCode || year === student.year);
+  }
+
+  private filterStudents(classType: string, selectedYear: string): void {
+    const classRooms = this.store.classRooms.getValue();
+    const filteredStudent = this.createStudentsArray(
+      classRooms,
+      this.getStudentByClassTypeFilter(classType),
+      this.getStudentByYearFilter(selectedYear)
+    );
     this.store.students.next(filteredStudent);
+  }
+
+  private createStudentsArray(
+    classRooms: ClassRooms, ...filters): Students {
+    const [
+      classTypeFilter = (classRoom?: ClassRoom) => true,
+      studentFilter = (student?: Student) => true
+    ] = filters;
+    return classRooms
+      .filter(classTypeFilter)
+      .reduce((students, classRoom) =>
+        [
+          ...classRoom.students.filter(studentFilter),
+          ...students],
+        []
+      );
+  }
+
+  private createClassTypesArray(types: ClassTypes): ChoiceList {
+    return types.map(type => ({ code: type, value: type }));
+  }
+
+  private fetchStudents(): Observable<ClassRoomResponse> {
+    return of(getStudents()).pipe(map(response => response as ClassRoomResponse));
+  }
+
+  onSelectedYear(selectedYear: string): void {
+    this.store.selectedYear = selectedYear;
+    this.filterYears(selectedYear);
+    this.filterStudents(this.store.selectedClassType, selectedYear);
+  }
+
+  onSelectedClassType(classType: string): void {
+    this.store.selectedClassType = classType;
+    this.filterClassTypes(classType);
+    this.filterStudents(classType, this.store.selectedYear);
   }
 
   onSwitchView(): void {

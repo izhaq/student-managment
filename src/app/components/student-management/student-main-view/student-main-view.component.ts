@@ -14,7 +14,7 @@ export class StudentMainViewComponent implements OnInit {
   years: ChoiceList = [];
   classTypes: ChoiceList = [];
   students: Students = [];
-  tableHeader: Partial<Student> = { fname: 'Name', lname: 'S.Name', grade: 'Score' };
+  tableHeader: Partial<Student> & { isDisable?: boolean } = { fname: 'Name', lname: 'S.Name', grade: 'Score', isDisable: true };
   selectedRow = '';
   constructor(private service: StudentsStoreService) { }
 
@@ -25,11 +25,19 @@ export class StudentMainViewComponent implements OnInit {
   }
 
   onYearSelected({ code: year }): void{
-    this.service.onNewYear(year);
+    this.service.onSelectedYear(year);
   }
 
   onClassSelected({ code: classType }): void {
-    this.service.onNewClassType(classType);
+    this.service.onSelectedClassType(classType);
+  }
+
+  onSelectedRow(student: Student): void {
+    this.selectedRow = student.fname;
+  }
+
+  onStudentUpdate(student: Partial<Student>): void {
+    console.log(student);
   }
 
 }

@@ -1,6 +1,4 @@
-<div class="student-table-row-view-container"
-
-     [ngClass]="{'low-grade': student.grade <= '45', 'selected-row': selectedRow === student.fname}">
+<div class="student-table-row-view-container">
   <div class="cell">
     <div>{{student.fname}}</div>
   </div>
@@ -8,6 +6,6 @@
     <div>{{student.lname}}</div>
   </div>
   <div class="cell">
-    <input class="score-input" type="text" [value]="student.grade">
+    <input class="score-input" type="text" [disabled]="student.isDisable" [(ngModel)]="student.grade" (ngModelChange)="updateStudentScore($event)">
   </div>
 </div>

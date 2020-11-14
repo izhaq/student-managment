@@ -36,10 +36,17 @@
             position: sticky;
             top: 0;
           }
-          .selected-row{
-            background-color: $light-yellow;
-          }
-          app-student-details-view{
+          .student-item{
+            cursor: pointer;
+            &.low-grade{
+              background-color: $light-red;
+            }
+            &.selected-row{
+              background-color: $light-yellow;
+            }
+            &:hover{
+              background-color: $light-yellow;
+            }
           }
         }
       }

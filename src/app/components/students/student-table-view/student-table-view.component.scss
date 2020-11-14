@@ -12,14 +12,15 @@
       flex: 1;
       padding: 10px;
       border-right: $dark-gray solid 2px;
+      &:last-of-type{
+        border-right: none;
+      }
       .score-input{
         border: none;
         background-color: inherit;
         padding-left: 5px;
+        color: inherit;
       }
-    }
-    &.low-grade{
-      background-color: $light-red;
     }
   }
 }
