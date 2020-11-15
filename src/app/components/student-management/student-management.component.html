@@ -14,7 +14,7 @@
     </div>
 
     <div class="row bottom">
-      <div class="col-12 student-details-section">
+      <div class="col-12 student-details-section" *ngIf="(view | async) === 'table'">
         <app-student-details-view></app-student-details-view>
       </div>
       <div class="col-12 editor-section">

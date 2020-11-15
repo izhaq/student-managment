@@ -15,6 +15,7 @@ export class StudentMainViewComponent implements OnInit {
   classTypes: ChoiceList = [];
   students: Students = [];
   tableHeader: Partial<Student> & { isDisable?: boolean } = { fname: 'Name', lname: 'S.Name', grade: 'Score', isDisable: true };
+  view = '';
   selectedRow = '';
   constructor(private service: StudentsStoreService) { }
 
@@ -22,6 +23,7 @@ export class StudentMainViewComponent implements OnInit {
     this.service.getYears().subscribe( years => (this.years = years));
     this.service.getClassTypes().subscribe(classTypes => (this.classTypes = classTypes));
     this.service.getStudents().subscribe( students => (this.students = students));
+    this.service.viewMode.subscribe(view => this.view = view);
   }
 
   onYearSelected({ code: year }): void{
@@ -40,4 +42,7 @@ export class StudentMainViewComponent implements OnInit {
     console.log(student);
   }
 
+  onSwitchView(mode: string): void {
+    this.service.onSwitchView(mode);
+  }
 }

@@ -40,7 +40,7 @@ export class StudentsStoreService {
       students: new BehaviorSubject<Students>([]),
       years: new BehaviorSubject<ChoiceList>([]),
       classTypes: new BehaviorSubject<ChoiceList>([]),
-      viewMode: new BehaviorSubject<string>('details'),
+      viewMode: new BehaviorSubject<string>('table'),
       classRooms: new BehaviorSubject<ClassRooms>([])
     };
     this.fetchStudents().subscribe(response => {
@@ -139,11 +139,10 @@ export class StudentsStoreService {
     this.filterStudents(classType, this.store.selectedYear);
   }
 
-  onSwitchView(): void {
-    if (this.store.viewMode.value === 'details') {
-      this.store.viewMode.next('table');
-    } else {
-      this.store.viewMode.next('details');
+  onSwitchView(mode: string): void {
+    const currentMode = this.store.viewMode.getValue();
+    if (currentMode !== mode) {
+      this.store.viewMode.next(mode);
     }
   }
 

@@ -3,6 +3,7 @@ export interface Student {
   lname: string;
   grade: string;
   year: string;
+  id?: string;
 }
 
 export type Students = Array<Student>;
