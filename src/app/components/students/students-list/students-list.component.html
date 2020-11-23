@@ -1,0 +1,7 @@
+<div class="student-list">
+  <app-student-details-item *ngFor="let student of students | async" [student]="student"
+                            (studentUpdate)="onStudentScoreUpdate($event)"
+                            (click)="onSelectedRow(student)"
+                            [ngClass]="{'selected-row': (selectedStudent | async).id === student.id}">
+  </app-student-details-item>
+</div>

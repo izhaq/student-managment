@@ -1,0 +1,8 @@
+<div class="student-list">
+  <app-student-row-item [student]="tableHeader" class="table-header"></app-student-row-item>
+  <app-student-row-item class="student-item" *ngFor="let student of students | async" [student]="student"
+                        [ngClass]="{'low-grade': student.grade <= '45', 'selected-row': (selectedStudent | async).id === student.id}"
+                        (click)="onSelectedRow(student)"
+                        (studentUpdate)="onStudentScoreUpdate($event)"
+  ></app-student-row-item>
+</div>
