@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import {Student} from '../../../models/Student';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Student} from '../../../../models/Student';
 
 @Component({
-  selector: 'app-student-row-item',
-  templateUrl: './student-row-item.component.html',
-  styleUrls: ['./student-row-item.component.scss']
+  selector: 'app-student-details-item',
+  templateUrl: './student-details-item.component.html',
+  styleUrls: ['./student-details-item.component.scss']
 })
-export class StudentRowItemComponent implements OnInit {
+export class StudentDetailsItemComponent implements OnInit {
 
   @Input() student: Partial<Student> & { isDisable?: boolean };
   @Output() studentUpdate?: EventEmitter<Partial<Student>> = new EventEmitter<Partial<Student>>();
