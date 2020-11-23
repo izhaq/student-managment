@@ -1,1 +1,10 @@
-<p>student-edit-view works!</p>
+<div class="row bottom">
+  <div class="col-12 student-details-section" *ngIf="(view | async) === 'table'">
+     <app-student-details-item [student]="selectedStudent | async" (studentUpdate)="onStudentScoreUpdate($event)"></app-student-details-item>
+  </div>
+  <div class="col-12 editor-section">
+    <div class="editor-container">
+      <angular-editor [config]="editorConfig" [placeholder]="'Enter text here...'"></angular-editor>
+    </div>
+  </div>
+</div>

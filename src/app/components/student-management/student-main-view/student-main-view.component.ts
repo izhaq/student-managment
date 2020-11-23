@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {zip} from 'rxjs';
+import {Observable, zip} from 'rxjs';
 import {Choice, ChoiceList} from '../../general-components/dropdown/dropdown.component';
 import {StudentsStoreService} from '../../../services/students-store.service';
 import {Student, Students} from '../../../models/Student';
@@ -11,19 +11,19 @@ import {Student, Students} from '../../../models/Student';
 })
 export class StudentMainViewComponent implements OnInit {
 
-  years: ChoiceList = [];
-  classTypes: ChoiceList = [];
-  students: Students = [];
-  tableHeader: Partial<Student> & { isDisable?: boolean } = { fname: 'Name', lname: 'S.Name', grade: 'Score', isDisable: true };
   view = '';
-  selectedRow = '';
   constructor(private service: StudentsStoreService) { }
 
   ngOnInit(): void {
-    this.service.getYears().subscribe( years => (this.years = years));
-    this.service.getClassTypes().subscribe(classTypes => (this.classTypes = classTypes));
-    this.service.getStudents().subscribe( students => (this.students = students));
     this.service.viewMode.subscribe(view => this.view = view);
+  }
+
+  get years(): Observable<ChoiceList> {
+    return this.service.getYears();
+  }
+
+  get classTypes(): Observable<ChoiceList> {
+    return this.service.getClassTypes();
   }
 
   onYearSelected({ code: year }): void{
@@ -35,10 +35,10 @@ export class StudentMainViewComponent implements OnInit {
   }
 
   onSelectedRow(student: Student): void {
-    this.selectedRow = student.fname;
+    this.service.onSelectedStudent(student);
   }
 
-  onStudentUpdate(student: Partial<Student>): void {
+  onStudentScoreUpdate(student: Partial<Student>): void {
     console.log(student);
   }
 

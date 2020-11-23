@@ -4,6 +4,7 @@ export interface Student {
   grade: string;
   year: string;
   id?: string;
+  class?: string;
 }
 
 export type Students = Array<Student>;

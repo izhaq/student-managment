@@ -4,6 +4,7 @@
   display: block;
   .main-view{
     background-color: $super-light-gray;
+    height: 100%;
     .switch-view-btn-section{
       padding: 5px;
       display: flex;
@@ -23,33 +24,6 @@
       padding: 5px 10px 10px 10px;
       .list-container{
         padding-top: 25px;
-        .student-list{
-          max-height: 315px;
-          overflow-y: auto;
-          overflow-x: hidden;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-          padding-right: 6px;
-          .table-header{
-            background-color: $light-green;
-            position: sticky;
-            top: 0;
-          }
-          .student-item{
-            cursor: pointer;
-            background-color: white;
-            &.low-grade{
-              background-color: $light-red;
-            }
-            &.selected-row{
-              background-color: $light-yellow;
-            }
-            &:hover{
-              background-color: $light-yellow;
-            }
-          }
-        }
       }
       .row {
         .col-12{

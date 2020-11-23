@@ -8,27 +8,29 @@
     <div class="col-sm-3 col-4 details-container">
       <div class="detail-section">
         <div class="details-label">Name:</div>
-        <div class="details-value">Jhon</div>
+        <div class="details-value">{{student.fname}}</div>
       </div>
       <div class="detail-section">
         <div class="details-label">S.Name:</div>
-        <div class="details-value">Jhon</div>
+        <div class="details-value">{{student.lname}}</div>
       </div>
     </div>
     <div class="col-sm-3 col-4 details-container">
       <div class="detail-section">
         <div class="details-label">Class:</div>
-        <div class="details-value">History</div>
+        <div class="details-value">{{student.class}}</div>
       </div>
       <div class="detail-section">
         <div class="details-label">Year:</div>
-        <div class="details-value">2020</div>
+        <div class="details-value">{{student.year}}</div>
       </div>
     </div>
     <div class="col-sm-4 col-12 details-container">
       <div class="detail-section">
         <div class="details-label">Score:</div>
-        <input class="score-input" type="text">
+        <input class="score-input" type="text"
+               [ngClass]="{'low-grade': student.grade <= '45'}"
+               [(ngModel)]="student.grade" (ngModelChange)="updateStudentScore($event)">
       </div>
     </div>
   </div>

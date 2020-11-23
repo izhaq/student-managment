@@ -1,51 +1,18 @@
 @import '~src/assets/variables';
 :host{
   display: block;
+  height: 100%;
   .management-container{
     height: 100%;
-    .top{
-      height: 50%;
+    display: flex;
+    flex-direction: column;
+    app-student-main-view{
+      flex: 1;
       background-color: $super-light-gray;
       margin-bottom: 15px;
     }
-    .bottom{
-      flex-direction: column;
-      height: 50%;
-      justify-content: center;
-      align-items: center;
-      background-color: $super-light-gray;
-      margin-top: 15px;
-      padding: 15px;
-      padding-top: 35px;
-      .student-details-section, .editor-section{
-        width: 100%;
-        flex: 1;
-      }
-      .student-details-section{
-        app-student-details-view{
-        }
-      }
-      .editor-section{
-        width: 100%;
-        flex: 2;
-        .editor-container{
-          background-color: white;
-
-        }
-      }
-
+    app-student-edit-view{
+      flex: 1;
     }
-    .app-header{
-      height: 50px;
-      background-color: #e5e5e5;
-      padding-left: 15px;
-      font-weight: bold;
-      font-size: 23px;
-      display: flex;
-      div{
-        align-self: center;
-      }
-    }
-
   }
 }

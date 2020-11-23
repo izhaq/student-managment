@@ -1,27 +1,4 @@
-<div class="row management-container">
-  <div class="col-12">
-    <div class="row top">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-12 app-header">
-            <div>
-              Student management
-            </div>
-          </div>
-        </div>
-        <app-student-main-view></app-student-main-view>
-      </div>
-    </div>
-
-    <div class="row bottom">
-      <div class="col-12 student-details-section" *ngIf="(view | async) === 'table'">
-        <app-student-details-view></app-student-details-view>
-      </div>
-      <div class="col-12 editor-section">
-        <div class="editor-container">
-          <angular-editor [config]="editorConfig" [placeholder]="'Enter text here...'"></angular-editor>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="management-container">
+    <app-student-main-view></app-student-main-view>
+    <app-student-edit-view></app-student-edit-view>
 </div>

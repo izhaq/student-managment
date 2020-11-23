@@ -3,14 +3,22 @@
 :host {
   display: block;
   height: 100%;
-  .container-fluid{
-    .table-container{
-      display: block;
-      max-width: 800px;
-      app-student-table-view{
-        display: block;
-        width: 100%;
-      }
+  .app-header{
+    height: 50px;
+    width: 100%;
+    background-color: #e5e5e5;
+    padding-left: 15px;
+    font-weight: bold;
+    font-size: 23px;
+    display: flex;
+    align-items: center;
+    div{
+      align-self: center;
     }
+  }
+  .app-container{
+    display: flex;
+    flex-direction: column;
+
   }
 }

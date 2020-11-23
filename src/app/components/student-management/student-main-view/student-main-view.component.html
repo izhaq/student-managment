@@ -17,28 +17,19 @@
             <div class="row">
               <div class="col-lg-6 col-md-12 col-sm-6 col-12">
                 <div class="dropdown-container">
-                  <app-dropdown [placeholder]="'Choose Year'" [options]="years" (itemSelectedEvent)="onYearSelected($event)"></app-dropdown>
+                  <app-dropdown [placeholder]="'Choose Year'" [options]="years | async" (itemSelectedEvent)="onYearSelected($event)"></app-dropdown>
                 </div>
               </div>
               <div class="col-lg-6 col-md-12 col-sm-6 col-12">
                 <div class="dropdown-container">
-                  <app-dropdown  [placeholder]="'Choose Class'" [options]="classTypes" (itemSelectedEvent)="onClassSelected($event)"></app-dropdown>
+                  <app-dropdown  [placeholder]="'Choose Class'" [options]="classTypes| async" (itemSelectedEvent)="onClassSelected($event)"></app-dropdown>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-lg-6 col-md-8 col-12 list-container">
-            <div class="student-list" *ngIf="view === 'table'">
-              <app-student-table-view [student]="tableHeader" class="table-header"></app-student-table-view>
-              <app-student-table-view class="student-item" *ngFor="let student of students" [student]="student"
-                                      [ngClass]="{'low-grade': student.grade <= '45', 'selected-row': selectedRow === student.fname}"
-                                      (click)="onSelectedRow(student)"
-                                      (studentUpdate)="onStudentUpdate($event)"
-              ></app-student-table-view>
-            </div>
-            <div class="student-list" *ngIf="view === 'detail'">
-              <app-student-details-view *ngFor="let student of students"></app-student-details-view>
-            </div>
+            <app-students-table *ngIf="view === 'table'"></app-students-table>
+            <app-students-list *ngIf="view === 'detail'"></app-students-list>
           </div>
         </div>
       </div>

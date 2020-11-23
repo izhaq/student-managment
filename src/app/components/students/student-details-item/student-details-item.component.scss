@@ -26,7 +26,7 @@
         padding-right: 5px;
       }
       .details-value{
-        font-weight: bold;
+        font-weight: 500;
       }
       .score-input{
         width: 60px;
@@ -34,6 +34,9 @@
         border: $dark-gray solid 1px;
         background-color: $light-yellow;
         padding-left: 5px;
+        &.low-grade{
+          background-color: $light-red
+        }
       }
     }
   }

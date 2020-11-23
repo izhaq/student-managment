@@ -5,12 +5,13 @@ import {ClassRoomResponse, ClassRoom, ClassRooms, ClassTypes} from '../models/Cl
 import {map} from 'rxjs/operators';
 import {ChoiceList, resetSelectionCode} from '../components/general-components/dropdown/dropdown.component';
 import {Student, Students} from '../models/Student';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Store{
-  studentsOrig: Students;
   selectedYear: string;
   selectedClassType: string;
-  students: BehaviorSubject<Students>;
+  selectedStudent: BehaviorSubject<Student>;
+  students: BehaviorSubject<Students>;  // Todo - replace with Map subject for O(1) get and update
   classRooms: BehaviorSubject<ClassRooms>;
   years: BehaviorSubject<ChoiceList>;
   classTypes: BehaviorSubject<ChoiceList>;
@@ -34,23 +35,33 @@ export class StudentsStoreService {
 
   init(): void {
     this.store = {
-      studentsOrig: [],
       selectedYear: resetSelectionCode,
       selectedClassType: resetSelectionCode,
+      selectedStudent: new BehaviorSubject<Student>({} as Student),
       students: new BehaviorSubject<Students>([]),
       years: new BehaviorSubject<ChoiceList>([]),
       classTypes: new BehaviorSubject<ChoiceList>([]),
-      viewMode: new BehaviorSubject<string>('table'),
+      viewMode: new BehaviorSubject<string>('detail'),
       classRooms: new BehaviorSubject<ClassRooms>([])
     };
     this.fetchStudents().subscribe(response => {
-      const students = this.createStudentsArray(response.classStudents);
-      this.store.classRooms.next(response.classStudents);
+      const classRooms = this.populateStudentData(response.classStudents);
+      const students = this.createStudentsArray(classRooms);
+      this.store.classRooms.next(classRooms);
       this.store.years.next([...this.createYearsArray(response.classStudents)]);
       this.store.classTypes.next([...this.createClassTypesArray(response.classTypes)]);
       this.store.students.next(students);
-      this.store.studentsOrig = students;
     });
+  }
+
+  private populateStudentData(classRooms: ClassRooms): ClassRooms {
+    return classRooms.reduce((newClassRooms: ClassRooms, classRoom) =>
+      [{...classRoom, students: classRoom.students.map( student => ({
+          ...student,
+          id: uuidv4(),
+          class: classRoom.classType
+      })) }, ...newClassRooms],
+      []);
   }
 
   private createYearsArray(classRooms: ClassRooms): ChoiceList {
@@ -111,12 +122,7 @@ export class StudentsStoreService {
     ] = filters;
     return classRooms
       .filter(classTypeFilter)
-      .reduce((students, classRoom) =>
-        [
-          ...classRoom.students.filter(studentFilter),
-          ...students],
-        []
-      );
+      .reduce((students, classRoom) => [...classRoom.students.filter(studentFilter), ...students], []);
   }
 
   private createClassTypesArray(types: ClassTypes): ChoiceList {
@@ -126,6 +132,24 @@ export class StudentsStoreService {
   private fetchStudents(): Observable<ClassRoomResponse> {
     return of(getStudents()).pipe(map(response => response as ClassRoomResponse));
   }
+
+  private updateStudentList(updatedStudent: Student): void {
+    const classRooms = this.store.classRooms.getValue();
+    for (const classRoom of classRooms) {
+      for (const student of classRoom.students) {
+        if (updatedStudent.id === student.id) {
+          student.grade = updatedStudent.grade;
+        }
+      }
+    }
+    this.store.classRooms.next(classRooms);
+    this.filterStudents(
+      this.store.selectedClassType,
+      this.store.selectedYear
+    );
+  }
+
+  /******************* public Api from here ************************/
 
   onSelectedYear(selectedYear: string): void {
     this.store.selectedYear = selectedYear;
@@ -146,6 +170,19 @@ export class StudentsStoreService {
     }
   }
 
+  onSelectedStudent(student: Student): void {
+    const currentStudent = this.store.selectedStudent.getValue();
+    if (student.id !== currentStudent.id) {
+      this.updateStudentList(student);
+      this.store.selectedStudent.next(student);
+    }
+  }
+
+  onStudentInfoUpdate(student: Partial<Student>): void {
+    const currentStudent = this.store.selectedStudent.getValue();
+    this.store.selectedStudent.next({...currentStudent, ...student});
+  }
+
   get classRoom(): Observable<Students> {
     return this.store.students.asObservable();
   }
@@ -160,6 +197,10 @@ export class StudentsStoreService {
 
   getStudents(): Observable<Students> {
     return this.store.students.asObservable();
+  }
+
+  getSelectedStudent(): Observable<Student> {
+    return this.store.selectedStudent.asObservable();
   }
 
   get viewMode(): Observable<string> {
